@@ -6,6 +6,7 @@
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Editing the script](#editing-the-script)
 - [Credits](#credits)
 - [License](#license)
 
@@ -33,6 +34,9 @@ This script allows you to use a camera in FiveM. You can move the camera around 
 3. Move your mouse to look around
 4. Press `Backspace` to exit the camera
 
+## Editing the script
+
+If you don't want to use a command, you can use the `TriggerClientEvent("Cam:ToggleCam", src)` anywhere in your code, so, you can change the way you want to open the camera.
 
 ## Credits
 
