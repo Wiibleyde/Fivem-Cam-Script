@@ -21,7 +21,7 @@ This script allows you to use a camera in FiveM. You can move the camera around 
 ## Installation
 
 1. Download the script
-2. Put it in your resource folder
+2. Put the `wiibleyde_cams` folder in the server resource directory
 3. Add `ensure wiibleyde_cams` to your server.cfg
 4. Restart your server
 5. Enjoy!
