@@ -9,6 +9,14 @@ local UI = {
 	y = -0.001,
 }
 
+local helicoCams = {
+	"polmav",
+	"buzzard",
+	"frogger",
+	"maverick",
+	"conada",
+}
+
 RegisterNetEvent("Cam:ToggleCam")
 AddEventHandler("Cam:ToggleCam", function()
     if not holdingCam then
@@ -63,7 +71,7 @@ Citizen.CreateThread(function()
 end)
 
 local fov_max = 70.0
-local fov_min = 5.0
+local fov_min = 3.0
 local zoomspeed = 5.0
 local speed_lr = 8.0
 local speed_ud = 8.0
@@ -78,15 +86,23 @@ Citizen.CreateThread(function()
 		local vehicle = GetVehiclePedIsIn(lPed)
 		if holdingCam then
 			newscamera = true
-			SetTimecycleModifier("default")
-			SetTimecycleModifierStrength(0.3)
-			local lPed = GetPlayerPed(-1)
-			local vehicle = GetVehiclePedIsIn(lPed)
 			local cam2 = CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", true)
-			AttachCamToEntity(cam2, lPed, 0.0,0.0,1.0, true)
-			SetCamRot(cam2, 2.0,1.0,GetEntityHeading(lPed))
-			SetCamFov(cam2, fov)
-			RenderScriptCams(true, false, 0, 1, 0)
+			if IsPedInAnyHeli(lPed) then
+				SetTimecycleModifier("default")
+				SetTimecycleModifierStrength(0.3)
+				local lPed = GetPlayerPed(-1)
+				AttachCamToEntity(cam2, lPed, 0.0,2.0,-1.5, true)
+				SetCamRot(cam2, 2.0,1.0,GetEntityHeading(lPed))
+				SetCamFov(cam2, fov)
+				RenderScriptCams(true, false, 0, 1, 0)
+			else
+				SetTimecycleModifier("default")
+				SetTimecycleModifierStrength(0.3)
+				AttachCamToEntity(cam2, lPed, 0.0,0.0,1.0, true)
+				SetCamRot(cam2, 2.0,1.0,GetEntityHeading(lPed))
+				SetCamFov(cam2, fov)
+				RenderScriptCams(true, false, 0, 1, 0)
+			end
 			while newscamera and not IsEntityDead(lPed) and (GetVehiclePedIsIn(lPed) == vehicle) do
 				if IsControlJustPressed(1, 177) then
 					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
@@ -176,7 +192,7 @@ function HandleZoom(cam)
 			fov = current_fov
 		end
 		SetCamFov(cam, current_fov + (fov - current_fov)*0.05)
-	else
+	else	
 		if IsControlJustPressed(0,241) or IsControlJustPressed(0,172) then
 			fov = math.max(fov - zoomspeed, fov_min)
 		end
